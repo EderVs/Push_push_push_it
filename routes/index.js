@@ -9,6 +9,7 @@ var app = express();
 var module_app;
 var io;
 
+//Getting socket.io
 async.waterfall([
 	function (callback){
 		module_app = require("../index");
@@ -24,11 +25,14 @@ async.waterfall([
 /**
 	Routes
 **/
+
+//Get land page
 app.get('/', function (req, res){
 	console.log("GET /")
 	res.render('index', {message: ""});
 });
 
+//Get play page
 app.get('/play', function (req, res){
 	console.log("GET /play")
 	res.render('play', {message: ""});

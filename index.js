@@ -2,16 +2,12 @@
 	Requires
 **/
 var express = require('express');
-var cors = require('cors');
 var path = require('path');
-var io = require('socket.io')(app);
-
 var app = express();
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
 
-/**
-	Middlewares
-**/
-app.use(cors());
+var port = 3000;
 
 /**
 	Settings
@@ -25,34 +21,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 **/
 var application = require('./routes/index');
 
-app.use('/' , application);
-
-/**
-	Error handlers
-**/
-if (app.get('env') === 'development') {
-    app.use(function(err, req, res, next) {
-        res.status(err.status || 500);
-        res.render('error', {
-            message: err.message,
-            error: err
-        });
-    });
-}
-
-//Production
-app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-        message: err.message,
-        error: {}
-    });
-});
+app.use('/', application);
 
 /**
 	Listening
 **/
-app.listen(3000, function (){
+server.listen(port, function (){
 	console.log('Listening in localhost:3000');
 })
 

@@ -3,13 +3,70 @@
 <head>
 	<meta charset="UTF-8">
 	<title>¡A jugar!</title>
+	<link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-	Waiting for another player
+	<section>
+		<article id="uno">
+			
+		</article>
+		<article id="dos">
+			
+		</article>
+	</section>
+
 	<script src="/socket.io/socket.io.js"></script>
     <script src="/js/jquery.js"></script>
 	<script>
-	  var socket = io();
+	  	var socket = io();
+	  	var user;
+	  	var vs;
+
+	  	socket.on("User", function (data){
+    		user = data;
+    		socket.on("start", function (data){
+    			vs = 7;
+    			
+    			socket.on("another_change", function (data){
+    				vs += data;
+    				if(data == 1)
+    				{
+    					$('#uno').css({background: "#F44336"});
+					    setTimeout(function (){
+					    	$('#uno').css({background: "#E57373"});
+					    }, 100);
+    				}
+    				else
+    				{
+	    				$('#dos').css({background: "#2196F3"});
+				    	setTimeout(function (){
+					    	$('#dos').css({background: "#64B5F6"});
+					    }, 100);
+    				}
+    				console.log(vs);
+    			});
+
+    			socket.on("wins", function (data){
+					var pagina="http://localhost:3000/wins/" + data.toString();
+					location.href=pagina;
+    			});
+
+    			addEventListener('keydown', function (e) {
+				    if (e.keyCode == 32)
+				    {
+				    	if (user == 1)
+				    	{
+				    		socket.emit("change", 1);
+				    	}
+				    	else
+				    	{
+				    		socket.emit("change", -1);
+				    	}
+				    }
+				}, false);
+
+    		});
+    	});
 	</script>
 </body>
 </html>

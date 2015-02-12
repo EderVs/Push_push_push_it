@@ -6,13 +6,18 @@
 	<link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+	<header>
+		<h1>
+			Push,Push,Push it!
+		</h1>
+	</header>
 	<section>
-		<article id="uno">
-			
-		</article>
-		<article id="dos">
-			
-		</article>
+		<div id="uno">
+			<div class="contador" id="uno_Number"><p>7</p></div>
+		</div>
+		<div id="dos">
+			<div class="contador" id="dos_Number"><p>7</p></div>
+		</div>
 	</section>
 
 	<script src="/socket.io/socket.io.js"></script>
@@ -43,6 +48,13 @@
 					    	$('#dos').css({background: "#64B5F6"});
 					    }, 100);
     				}
+    				var Vs_now1 = $('#uno_Number p').text();
+				    Vs_now1 = parseInt(Vs_now1) + data;
+				    $('#uno_Number p').text(Vs_now1);
+
+				    var Vs_now2 = $('#dos_Number p').text();
+				    Vs_now2 = parseInt(Vs_now2) - data;
+				    $('#dos_Number p').text(Vs_now2);
     				console.log(vs);
     			});
 
